@@ -36,9 +36,9 @@
         {
           "id": "1.4",
           "name": "Configure User Name",
-          "instruction": "Git requires an author identity for commits. Configure your global system user name to be 'Aleksandra'.",
-          "expectedInput": "git config --global user.name \"Aleksandra\"",
-          "hint": "Use: git config --global user.name \"Your Name\"",
+          "instruction": "Git requires an author identity for commits. Configure your global system user name to be 'My Name'.",
+          "expectedInput": "git config --global user.name \"My Name\"",
+          "hint": "Use: git config --global user.name \"My Name\"",
           "successMessage": "Global identity metadata name saved to config parameters successfully.",
           "uiTriggerState": "save_name_config"
         },
@@ -47,7 +47,7 @@
           "name": "Configure User Email",
           "instruction": "Complete your global identity setup by linking your email address to 'student@senecapolytechnic.ca'.",
           "expectedInput": "git config --global user.email \"student@senecapolytechnic.ca\"",
-          "hint": "Use: git config --global user.email \"your_email@domain.com\"",
+          "hint": "Use: git config --global user.email \"student@senecapolytechnic.ca\"",
           "successMessage": "Global identity email updated. Commit execution capabilities unlocked.",
           "uiTriggerState": "save_email_config"
         },
@@ -191,7 +191,7 @@
           "hint": "Execute 'git clone' followed directly by the complete remote endpoint location string.",
           "successMessage": "Download complete! Workspace loaded with layout templates from the server architecture.",
           "uiTriggerState": "play_clone_download_sequence"
-        },
+        }, 
         {
           "id": "4.2",
           "name": "Link Local Project to a Remote URL",
