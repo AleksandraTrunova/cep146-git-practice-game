@@ -1,0 +1,234 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "title": "Level 1: Workspace Setup & Navigation",
+      "objective": "Learn to interact with the file system using the Linux CLI, create a clean directory workspace, set up your global developer identity, and initialize an empty repository instance.",
+      "commands": ["pwd", "mkdir", "cd", "git config", "git init"],
+      "tasks": [
+        {
+          "id": "1.1",
+          "name": "Current Work Directory",
+          "instruction": "Before initializing a project, check exactly where you are standing inside the system directory tree. Print the current working path.",
+          "expectedInput": "pwd",
+          "hint": "Type 'pwd' (Print Working Directory) and hit Enter.",
+          "successMessage": "Success! The system reports your active path is /home/seneca/projects.",
+          "uiTriggerState": "show_base_path"
+        },
+        {
+          "id": "1.2",
+          "name": "Create Folder",
+          "instruction": "Create a new directory called 'git-game'.",
+          "expectedInput": "mkdir git-game",
+          "hint": "Use the command 'mkdir' followed by a space and the folder name 'git-game'.",
+          "successMessage": "Directory created! A gray directory block labeled [git-game] is now tracked.",
+          "uiTriggerState": "draw_empty_folder"
+        },
+        {
+          "id": "1.3",
+          "name": "Move into the Folder",
+          "instruction": "Change your current location to the new 'git-game' directory.",
+          "expectedInput": "cd git-game",
+          "hint": "Use 'cd' (Change Directory) followed by your target folder name.",
+          "successMessage": "Navigation complete. Notice your terminal shell prompt string has updated.",
+          "uiTriggerState": "update_prompt_to_folder"
+        },
+        {
+          "id": "1.4",
+          "name": "Configure User Name",
+          "instruction": "Git requires an author identity for commits. Configure your global system user name to be 'Aleksandra'.",
+          "expectedInput": "git config --global user.name \"Aleksandra\"",
+          "hint": "Use: git config --global user.name \"Your Name\"",
+          "successMessage": "Global identity metadata name saved to config parameters successfully.",
+          "uiTriggerState": "save_name_config"
+        },
+        {
+          "id": "1.5",
+          "name": "Configure User Email",
+          "instruction": "Complete your global identity setup by linking your email address to 'student@senecapolytechnic.ca'.",
+          "expectedInput": "git config --global user.email \"student@senecapolytechnic.ca\"",
+          "hint": "Use: git config --global user.email \"your_email@domain.com\"",
+          "successMessage": "Global identity email updated. Commit execution capabilities unlocked.",
+          "uiTriggerState": "save_email_config"
+        },
+        {
+          "id": "1.6",
+          "name": "Init Git Repo",
+          "instruction": "Convert this plain folder into an active, local tracking Git version control repository.",
+          "expectedInput": "git init",
+          "hint": "Run the core Git initialization command: 'git init'",
+          "successMessage": "Initialized empty Git repository! Hidden tracking directory .git/ generated.",
+          "uiTriggerState": "reveal_hidden_git_node"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Level 2: Tracking Changes & Local Commits",
+      "objective": "Master the operational bridge between the Working Directory, the Staging Area, and a permanent Commit Node. Learn to inspect lines of modification and review historical logs before saving.",
+      "commands": ["touch", "git status", "git diff", "git add", "git commit", "git log"],
+      "tasks": [
+        {
+          "id": "2.1",
+          "name": "Create File",
+          "instruction": "Create a text file named 'index.html'.",
+          "expectedInput": "touch index.html",
+          "hint": "Use the system utilities command 'touch' followed by 'index.html'.",
+          "successMessage": "File added! An untracked, red-colored file icon element now appears.",
+          "uiTriggerState": "render_untracked_file_red"
+        },
+        {
+          "id": "2.2",
+          "name": "Check Repository Status",
+          "instruction": "Check the active state of your repository to verify how Git sees your new file.",
+          "expectedInput": "git status",
+          "hint": "Type 'git status' to run a structural workspace diagnostics check.",
+          "successMessage": "Status pass executed. Shell logs output: 'Untracked files present: index.html'.",
+          "uiTriggerState": "print_untracked_status"
+        },
+        {
+          "id": "2.3",
+          "name": "View File Differences",
+          "instruction": "Before staging your changes, inspect the exact modifications made to the lines inside your file.",
+          "expectedInput": "git diff",
+          "hint": "Type 'git diff' to output active working line transformations.",
+          "successMessage": "Diff rendered. Green marker block added: '+ <h1>Hello Git</h1>'.",
+          "uiTriggerState": "print_terminal_diff_lines"
+        },
+        {
+          "id": "2.4",
+          "name": "Stage File",
+          "instruction": "Move the 'index.html' file into the Staging Area to prepare it for your milestone checkpoint.",
+          "expectedInput": "git add index.html",
+          "hint": "Run 'git add' targeting your explicit filename.",
+          "successMessage": "Staged! The index.html file token switches behavior flags from red to green.",
+          "uiTriggerState": "shift_file_to_staged_green"
+        },
+        {
+          "id": "2.5",
+          "name": "Create Commit",
+          "instruction": "Permanently commit your staged changes into the repository history with a message labeled 'initial setup'.",
+          "expectedInput": "git commit -m \"initial setup\"",
+          "hint": "Ensure you add the -m flag string key wrapped inside matching double quotes.",
+          "successMessage": "Snapshot captured! Timeline tracking history initialized with node marker C1.",
+          "uiTriggerState": "draw_commit_node_c1"
+        },
+        {
+          "id": "2.6",
+          "name": "View Commit Log History",
+          "instruction": "Review your repository's commit history logs to confirm your milestone is logged with its author and hash.",
+          "expectedInput": "git log",
+          "hint": "Type 'git log' to call up your project repository historical index list.",
+          "successMessage": "Log array generated, displaying author Aleksandra, timestamps, and hash mappings.",
+          "uiTriggerState": "render_historical_logs_panel"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Level 3: Advanced Branching & Conflict Interventions",
+      "objective": "Isolate experimental feature creation via independent branching trackers, explore modern context switching syntax, and systematically handle structural merge conflicts.",
+      "commands": ["git branch", "git checkout", "git switch", "git merge", "git merge --abort"],
+      "tasks": [
+        {
+          "id": "3.1",
+          "name": "Create a Branch",
+          "instruction": "Create a new feature branch named 'feature-ui'.",
+          "expectedInput": "git branch feature-ui",
+          "hint": "Use 'git branch' followed by your specific target path name 'feature-ui'.",
+          "successMessage": "Branch initialized. A virtual workspace pointer extends off the main tracking root.",
+          "uiTriggerState": "draw_branch_pointer_split"
+        },
+        {
+          "id": "3.2",
+          "name": "Switch to the New Branch",
+          "instruction": "Change your active context to work on the 'feature-ui' branch using the traditional checkout syntax.",
+          "expectedInput": "git checkout feature-ui",
+          "hint": "Use 'git checkout' to redirect system tracking parameters.",
+          "successMessage": "Context switched. Prompt string brackets now track: (feature-ui).",
+          "uiTriggerState": "update_prompt_to_feature_branch"
+        },
+        {
+          "id": "3.3",
+          "name": "Use Modern Switch Syntax",
+          "instruction": "Switch back to the stable main development branch using the modern alternative command line keyword.",
+          "expectedInput": "git switch main",
+          "hint": "Type 'git switch' directly followed by your target line keyword 'main'.",
+          "successMessage": "Context switched safely. Active pointer references main once again.",
+          "uiTriggerState": "return_prompt_to_main_branch"
+        },
+        {
+          "id": "3.4",
+          "name": "Experience an Unexpected Merge Conflict",
+          "instruction": "Attempt to merge the changes from 'feature-ui' directly into your active 'main' branch.",
+          "expectedInput": "git merge feature-ui",
+          "hint": "Run the integration step using 'git merge' and target the feature label name.",
+          "successMessage": "CONFLICT! Automatic merge failed. Files highlight code block interference areas in orange.",
+          "uiTriggerState": "trigger_merge_conflict_alert"
+        },
+        {
+          "id": "3.5",
+          "name": "Emergency Merge Abort",
+          "instruction": "You are not ready to manually sort this conflict line-by-line right now. Run the safety-net command to cancel the merge entirely and reset to your clean state.",
+          "expectedInput": "git merge --abort",
+          "hint": "Append the double dash abort option parameter flag straight onto your merge keyword.",
+          "successMessage": "Merge process canceled. Files reverted safely back to pristine pre-merge states.",
+          "uiTriggerState": "clear_conflict_state_reset"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Level 4: Remote Repositories & Collaboration",
+      "objective": "Link a local repository to GitHub, download existing templates via cloning, and securely synchronize project timelines back and forth across remote host instances.",
+      "commands": ["git clone", "git remote add", "git push", "git fetch", "git pull"],
+      "tasks": [
+        {
+          "id": "4.1",
+          "name": "Clone a Remote Repository",
+          "instruction": "Download a copy of an existing remote repository hosted at 'https://github.com/seneca/template.git' to initialize your workspace templates.",
+          "expectedInput": "git clone https://github.com/seneca/template.git",
+          "hint": "Execute 'git clone' followed directly by the complete remote endpoint location string.",
+          "successMessage": "Download complete! Workspace loaded with layout templates from the server architecture.",
+          "uiTriggerState": "play_clone_download_sequence"
+        },
+        {
+          "id": "4.2",
+          "name": "Link Local Project to a Remote URL",
+          "instruction": "For your local 'git-game' project, add a remote server connection named 'origin' pointing to the address 'https://github.com/seneca/game.git'.",
+          "expectedInput": "git remote add origin https://github.com/seneca/game.git",
+          "hint": "Syntax pattern structure: git remote add <name> <url_string>",
+          "successMessage": "Remote mapping registered! Cloud pipeline icon established under unique key name origin.",
+          "uiTriggerState": "fade_in_cloud_origin_server"
+        },
+        {
+          "id": "4.3",
+          "name": "Push Local Milestones to the Cloud",
+          "instruction": "Upload your local repository tracking history checkpoints from your local machine up to the remote cloud server's main branch.",
+          "expectedInput": "git push origin main",
+          "hint": "Type 'git push' then provide the host marker label 'origin' and branch 'main'.",
+          "successMessage": "Local file blocks processed and safely uploaded to remote server infrastructure archives.",
+          "uiTriggerState": "animate_packet_upload_to_cloud"
+        },
+        {
+          "id": "4.4",
+          "name": "Fetch Server Changes",
+          "instruction": "Download the newest branch tracking details and commits uploaded by your project partner to the server without merging them into your local working files yet.",
+          "expectedInput": "git fetch origin",
+          "hint": "Execute a fetch checkpoint check targeting the shorthand string destination label 'origin'.",
+          "successMessage": "Fetch complete. Remote pointers aligned locally without changing working directory states.",
+          "uiTriggerState": "render_hidden_fetched_pointers"
+        },
+        {
+          "id": "4.5",
+          "name": "Pull Down and Integrate Updates",
+          "instruction": "Fetch and automatically merge the newest modifications from the remote server's main branch straight into your active local workspace.",
+          "expectedInput": "git pull origin main",
+          "hint": "Execute the pull combined tracking method: git pull <remote_label> <target_branch>",
+          "successMessage": "Success! System workspace synchronized seamlessly with server baseline commits.",
+          "uiTriggerState": "sync_local_tree_complete"
+        }
+      ]
+    }
+  ]
+}
