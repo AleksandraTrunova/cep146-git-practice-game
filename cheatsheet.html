@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: [
+                "JetBrains Mono",
+                "ui-monospace",
+                "monospace",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-950 text-slate-100 font-mono min-h-screen flex flex-col"
+  >
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
+      <div
+        class="mb-12 text-center md:text-left border-b border-slate-800 pb-6"
+      >
+        <div>
+          <h1 class="text-3xl font-bold text-slate-100 tracking-tight">
+            CLI & Git Reference Guide
+          </h1>
+          <p class="text-slate-400 text-sm mt-1">
+            Review syntax rules, command options, and operational behaviors
+            across all 4 levels.
+          </p>
+        </div>
+      </div>
+
+      <div id="commands-container" class="space-y-12">
+        <section class="level-section space-y-4">
+          <div class="border-l-4 border-blue-500 pl-3">
+            <h2 class="text-xl font-bold text-blue-400">
+              LEVEL 1: Workspace Setup, Navigation, & Identity
+            </h2>
+            <p class="text-slate-400 text-xs mt-0.5">
+              Interact with the local file system, configure global
+              environments, and initialize empty instances.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  pwd
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Print Working Directory</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Outputs the absolute structural path of your current active
+                location inside the terminal system directory tree.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  mkdir &lt;folder_name&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Make Directory</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Generates a brand new, empty folder configuration block at your
+                current pathway directory location.
+              </p>
+              <div class="mt-2 text-xs text-slate-400 font-sans">
+                <span class="font-mono text-blue-400">Example:</span>
+                <code class="bg-slate-950 px-1.5 py-0.5 rounded font-mono"
+                  >mkdir git-game</code
+                >
+              </div>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  cd &lt;target_path&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Change Directory</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Shifts your active command line pointer location to jump into a
+                separate targeted folder path resource.
+              </p>
+              <div class="mt-2 text-xs text-slate-400 font-sans">
+                <span class="font-mono text-blue-400">Tip:</span> Run
+                <code class="bg-slate-950 px-1.5 py-0.5 rounded font-mono"
+                  >cd ..</code
+                >
+                to step backward up out of your current directory.
+              </div>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git config --global user.name / email
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Git Configuration</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Configures your global developer credentials. These metrics sign
+                all your future local timeline commits with authorship metadata
+                records.
+              </p>
+              <div class="mt-2 text-xs text-slate-400 font-sans">
+                <span class="font-mono text-blue-400">Example:</span>
+                <code class="bg-slate-950 px-1.5 py-0.5 rounded font-mono"
+                  >git config --global user.name "My Name"</code
+                >
+              </div>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git init
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Initialize Repository</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Converts a plain directory into an active tracking workspace by
+                setting up a hidden internal validation database structure named
+                <code class="text-blue-400">.git/</code>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="level-section space-y-4">
+          <div class="border-l-4 border-blue-500 pl-3">
+            <h2 class="text-xl font-bold text-blue-400">
+              LEVEL 2: Tracking Changes, Inspecting Diffs, & Local Commits
+            </h2>
+            <p class="text-slate-400 text-xs mt-0.5">
+              Manage the staging framework pipeline, review incremental
+              differences, and capture historical timeline snapshots.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  touch &lt;filename&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Create Blank File</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Generates a fresh, empty tracking file structure inside the
+                workspace directory folder path if the name does not already
+                exist.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git status
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Check Status</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Runs a real-time structural analysis of your workspace,
+                categorizing items into modified files, untracked changes, or
+                ready-to-commit staged packages.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git diff
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >View Differences</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Renders line-by-line character transformations, comparing
+                unstaged working modifications against your last stable
+                repository commit state baseline.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git add &lt;file&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Stage Changes</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Elevates directory changes into the secure Staging Area
+                container box, grouping them into a single bundle prepared for
+                history mapping.
+              </p>
+              <div class="mt-2 text-xs text-slate-400 font-sans">
+                <span class="font-mono text-blue-400">Tip:</span> Execute
+                <code class="bg-slate-950 px-1.5 py-0.5 rounded font-mono"
+                  >git add .</code
+                >
+                to package every modification inside your local folder
+                recursively.
+              </div>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git commit -m "&lt;message&gt;"
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Record Snapshot</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Seals staged changes into a permanent milestone tracking node in
+                the repository timeline. The
+                <code class="text-blue-400">-m</code> flag attaches an explicit
+                inline summary log string.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git log
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >View Commit History</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Generates an ordered chronological output list mapping all
+                previously saved commit snapshots, showing hashes, authors,
+                dates, and logs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="level-section space-y-4">
+          <div class="border-l-4 border-blue-500 pl-3">
+            <h2 class="text-xl font-bold text-blue-400">
+              LEVEL 3: Advanced Branching, Context Switching, & Conflict
+              Interventions
+            </h2>
+            <p class="text-slate-400 text-xs mt-0.5">
+              Isolate experimental features via independent branch tracking
+              pathways and safely intercept collision points.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git branch &lt;branch_name&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Manage Branches</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Creates an isolated development tracking line pointer pointing
+                to your active commit base. Run
+                <code class="text-blue-400">git branch</code> standalone to
+                output local branch listings.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git checkout &lt;branch&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Switch Context</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Redirects the system shell tracking focus onto an alternate
+                target timeline branch structure.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git switch &lt;branch&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Modern Switch Alternative</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                A modern, dedicated utility built exclusively to execute branch
+                shifts cleanly, separating branch actions from old file
+                restoration behaviors.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git merge &lt;target_branch&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Merge Timelines</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Integrates historical development snapshot nodes from a target
+                feature branch into your active branch context line.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-amber-500 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git merge --abort
+                </h3>
+                <span
+                  class="text-xs text-amber-600 uppercase tracking-wider font-semibold"
+                  >Reset</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Intercepts a blocked merge conflict state, dropping the
+                compilation instantly and resetting all working files to their
+                clean, pre-merge condition.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="level-section space-y-4">
+          <div class="border-l-4 border-blue-500 pl-3">
+            <h2 class="text-xl font-bold text-blue-400">
+              LEVEL 4: Remote Repositories & Cloud Collaboration
+            </h2>
+            <p class="text-slate-400 text-xs mt-0.5">
+              Link local environments to host endpoints and synchronize data
+              arrays across machine contexts.
+            </p>
+          </div>
+
+          <div class="grid gap-4">
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git clone &lt;url&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Clone Remote Repo</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Downloads a complete local repository copy from a hosted server
+                URL address, instantly recreating history maps and linking
+                background default tracking paths.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git remote add &lt;short_name&gt; &lt;url&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Link Cloud Target</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Registers an explicit structural map link connecting your local
+                project configuration up to a cloud server URL using an
+                accessible shortcut name like
+                <code class="text-blue-400">origin</code>.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git push &lt;remote_name&gt; &lt;branch&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Upload Commits</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Uploads verified local branch commit sequences up to the matched
+                cloud server repository target branch directory tracking slots.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git fetch &lt;remote&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Download Metadata</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Downloads updated metadata records, hash points, and branch
+                details from the cloud server box **without changing or
+                overwriting** any active local file assets.
+              </p>
+            </div>
+
+            <div
+              class="command-card bg-slate-900 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700 transition-colors"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+              >
+                <h3
+                  class="text-lg font-bold text-green-400 bg-slate-950/60 px-3 py-1 rounded border border-slate-800 w-fit"
+                >
+                  git pull &lt;remote&gt; &lt;branch&gt;
+                </h3>
+                <span
+                  class="text-xs text-slate-500 uppercase tracking-wider font-semibold"
+                  >Fetch & Merge Updates</span
+                >
+              </div>
+              <p class="text-slate-300 text-sm mt-3">
+                Pulls down changes from the server database and instantly merges
+                them into your active local working directory files. Acts as a
+                combined sequence tracking chain of
+                <code class="text-blue-400">fetch</code> +
+                <code class="text-blue-400">merge</code>.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
