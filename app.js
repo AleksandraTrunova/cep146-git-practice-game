@@ -19,6 +19,11 @@ const LEVEL_COMPLETION = {
     objective: "Tracking, staging, and commits mastered. More levels coming soon.",
     banner: "Level 2 complete. First commit saved to history.",
   },
+  3: {
+    title: "Level 3 complete",
+    objective: "Branching and merge conflict recovery mastered. One level left.",
+    banner: "Level 3 complete. Merge aborted safely — repo restored.",
+  },
 };
 
 const COMMIT_HASH = "a3f9c21";
@@ -42,6 +47,7 @@ const elements = {
   hintText: document.getElementById("hint-text"),
   workspacePanel: document.getElementById("workspace-panel"),
   workspaceFiles: document.getElementById("workspace-files"),
+  workspaceBranches: document.getElementById("workspace-branches"),
   workspaceCommits: document.getElementById("workspace-commits"),
   terminalOutput: document.getElementById("terminal-output"),
   terminalForm: document.getElementById("terminal-form"),
@@ -53,6 +59,9 @@ const elements = {
 const repoState = {
   files: [],
   commits: [],
+  branches: [],
+  currentBranch: "main",
+  mergeConflict: false,
 };
 
 const state = {
@@ -142,11 +151,24 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function getPromptPrefix() {
-  if (ACTIVE_LEVEL_ID >= 2) {
-    return '<span class="mr-2 text-green-500">user@git-practice:~/git-game$</span>';
+function getPromptText() {
+  if (ACTIVE_LEVEL_ID >= 3) {
+    return `user@git-practice:~/git-game (${repoState.currentBranch})$`;
   }
-  return '<span class="mr-2 text-green-500">user@git-practice:~$</span>';
+  if (ACTIVE_LEVEL_ID >= 2) {
+    return "user@git-practice:~/git-game$";
+  }
+  return "user@git-practice:~$";
+}
+
+function updateTerminalPrompt() {
+  if (elements.terminalPrompt) {
+    elements.terminalPrompt.textContent = getPromptText();
+  }
+}
+
+function getPromptPrefix() {
+  return `<span class="mr-2 text-green-500">${escapeHtml(getPromptText())}</span>`;
 }
 
 function printLine(text, kind = "info") {
@@ -196,14 +218,35 @@ function renderWorkspace() {
       untracked: "border-red-400/40 bg-red-400/10 text-red-400",
       staged: "border-green-400/40 bg-green-400/10 text-green-400",
       committed: "border-slate-600 bg-slate-700/40 text-slate-300",
+      conflict: "border-amber-500/50 bg-amber-500/15 text-amber-400",
     };
 
     repoState.files.forEach((file) => {
       const chip = document.createElement("span");
       chip.className = `rounded border px-2 py-1 text-xs ${fileStyles[file.status] || fileStyles.committed}`;
-      chip.textContent = file.name;
+      chip.textContent = file.status === "conflict" ? `${file.name} ⚠ conflict` : file.name;
       elements.workspaceFiles.appendChild(chip);
     });
+  }
+
+  if (elements.workspaceBranches) {
+    elements.workspaceBranches.innerHTML = "";
+    if (ACTIVE_LEVEL_ID >= 3 && repoState.branches.length > 0) {
+      const label = document.createElement("span");
+      label.className = "mr-1 text-[10px] uppercase tracking-widest text-slate-500";
+      label.textContent = "branches";
+      elements.workspaceBranches.appendChild(label);
+
+      repoState.branches.forEach((branch) => {
+        const chip = document.createElement("span");
+        const isActive = branch === repoState.currentBranch;
+        chip.className = isActive
+          ? "rounded-full border border-blue-400/50 bg-blue-400/15 px-2 py-1 text-[11px] font-bold text-blue-400"
+          : "rounded-full border border-slate-600 px-2 py-1 text-[11px] text-slate-400";
+        chip.textContent = isActive ? `${branch} ●` : branch;
+        elements.workspaceBranches.appendChild(chip);
+      });
+    }
   }
 
   elements.workspaceCommits.innerHTML = "";
@@ -234,6 +277,27 @@ function applyWorkspaceUpdate(triggerState) {
     case "draw_commit_node_c1":
       setFileStatus("index.html", "committed");
       repoState.commits.push({ hash: COMMIT_HASH, message: "initial setup" });
+      break;
+    case "draw_branch_pointer_split":
+      if (!repoState.branches.includes("feature-ui")) {
+        repoState.branches.push("feature-ui");
+      }
+      break;
+    case "update_prompt_to_feature_branch":
+      repoState.currentBranch = "feature-ui";
+      updateTerminalPrompt();
+      break;
+    case "return_prompt_to_main_branch":
+      repoState.currentBranch = "main";
+      updateTerminalPrompt();
+      break;
+    case "trigger_merge_conflict_alert":
+      repoState.mergeConflict = true;
+      setFileStatus("index.html", "conflict");
+      break;
+    case "clear_conflict_state_reset":
+      repoState.mergeConflict = false;
+      setFileStatus("index.html", "committed");
       break;
     default:
       break;
@@ -273,6 +337,26 @@ function printSimulatedOutput(task) {
       printLine("Date:   Tue Jun 16 12:00:00 2026 -0400", "info");
       printLine("", "info");
       printLine("    initial setup", "info");
+      break;
+    case "3.1":
+      printLine("Branch 'feature-ui' created.", "info");
+      break;
+    case "3.2":
+      printLine("Switched to branch 'feature-ui'", "info");
+      break;
+    case "3.3":
+      printLine("Switched to branch 'main'", "info");
+      break;
+    case "3.4":
+      printLine("Auto-merging index.html", "info");
+      printHtmlLine(
+        '<span class="text-amber-500">CONFLICT (content): Merge conflict in index.html</span>',
+        "error"
+      );
+      printLine("Automatic merge failed; fix conflicts and then commit the result.", "error");
+      break;
+    case "3.5":
+      printLine("Merge aborted. Working tree restored to pre-merge state.", "info");
       break;
     default:
       break;
@@ -419,10 +503,31 @@ async function loadData() {
 }
 
 function setupLevelContext() {
-  if (ACTIVE_LEVEL_ID >= 2 && elements.terminalPrompt) {
-    elements.terminalPrompt.textContent = "user@git-practice:~/git-game$";
+  if (ACTIVE_LEVEL_ID === 2) {
+    repoState.files = [];
+    repoState.commits = [];
   }
+
+  if (ACTIVE_LEVEL_ID >= 3) {
+    repoState.files = [{ name: "index.html", status: "committed" }];
+    repoState.commits = [{ hash: COMMIT_HASH, message: "initial setup" }];
+    repoState.branches = ["main"];
+    repoState.currentBranch = "main";
+    repoState.mergeConflict = false;
+  }
+
+  updateTerminalPrompt();
   renderWorkspace();
+}
+
+function getLevelIntroMessage() {
+  if (ACTIVE_LEVEL_ID >= 3) {
+    return "Continuing from Level 2 — one commit on main, ready to branch.";
+  }
+  if (ACTIVE_LEVEL_ID >= 2) {
+    return "Continuing from Level 1 — you're inside ~/git-game with an initialized repo.";
+  }
+  return null;
 }
 
 async function init() {
@@ -452,9 +557,8 @@ async function init() {
   setupLevelContext();
 
   printLine("Welcome to git::practice. Type the command each task asks for.", "system");
-  if (ACTIVE_LEVEL_ID >= 2) {
-    printLine("Continuing from Level 1 — you're inside ~/git-game with an initialized repo.", "system");
-  }
+  const intro = getLevelIntroMessage();
+  if (intro) printLine(intro, "system");
   printLine(`— ${state.currentLevel.title} —`, "system");
   renderTask();
   elements.commandInput.focus();
