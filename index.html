@@ -44,10 +44,12 @@
         <div class="mb-[10px] flex items-center gap-3">
           <span
             id="level-badge"
-            class="rounded-full border border-blue-400/40 bg-blue-400/10 px-[3px] py-[3px] text-[10px] font-bold tracking-widest text-blue-400"
-            >LEVEL 1</span
+            class="inline-flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-full border border-blue-400/40 bg-blue-400/10 text-blue-400 leading-none"
           >
-          <h2 id="level-title" class="m-0 text-lg text-slate-100">Loading…</h2>
+            <span id="level-badge-label" class="text-[7px] font-bold tracking-wide">LEVEL</span>
+            <span id="level-badge-num" class="text-sm font-bold">1</span>
+          </span>
+          <h2 id="level-title" class="m-0 min-w-0 flex-1 text-lg text-slate-100">Loading…</h2>
         </div>
         <p id="level-objective" class="mb-[18px] mt-0 text-slate-500"></p>
 
@@ -58,17 +60,37 @@
           <p id="task-instruction" class="m-0 text-slate-100"></p>
         </div>
 
-        <button
-          id="hint-btn"
-          type="button"
-          class="cursor-pointer rounded-md border border-amber-500/40 bg-transparent px-3 py-[6px] font-mono text-xs text-amber-500 transition-colors hover:bg-amber-500/10 disabled:cursor-default disabled:opacity-40"
-        >
-          show hint
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            id="hint-btn"
+            type="button"
+            class="cursor-pointer rounded-md border border-amber-500/40 bg-transparent px-3 py-[6px] font-mono text-xs text-amber-500 transition-colors hover:bg-amber-500/10 disabled:cursor-default disabled:opacity-40"
+          >
+            show hint
+          </button>
+          <button
+            id="next-level-btn"
+            type="button"
+            class="hidden cursor-pointer rounded-md border border-blue-400/40 bg-blue-400/10 px-3 py-[6px] font-mono text-xs text-blue-400 transition-colors hover:bg-blue-400/20"
+          >
+            next level →
+          </button>
+        </div>
         <p
           id="hint-text"
           class="mb-0 mt-[14px] hidden border-l-[3px] border-amber-500 pl-3 text-[13px] text-amber-500"
         ></p>
+
+        <div
+          id="workspace-panel"
+          class="mt-[18px] hidden rounded-md border border-slate-600 bg-slate-900/50 p-3"
+        >
+          <p class="mb-2 mt-0 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            workspace · ~/git-game
+          </p>
+          <div id="workspace-files" class="flex flex-wrap gap-2"></div>
+          <div id="workspace-commits" class="mt-3 flex items-center gap-2"></div>
+        </div>
       </section>
 
       <section
@@ -80,7 +102,7 @@
           class="max-h-[460px] min-h-[280px] flex-1 overflow-y-auto p-[18px] text-sm"
         ></div>
         <form id="terminal-form" autocomplete="off" class="flex items-center gap-2 border-t border-slate-700 bg-terminput px-[18px] py-[14px]">
-          <span class="whitespace-nowrap font-medium text-green-500">user@git-practice:~$</span>
+          <span id="terminal-prompt" class="whitespace-nowrap font-medium text-green-500">user@git-practice:~$</span>
           <input
             type="text"
             id="command-input"

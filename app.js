@@ -1,20 +1,58 @@
 const DATA_URL = "docs/questions.json";
-const ACTIVE_LEVEL_ID = 1;
+const DEFAULT_LEVEL_ID = 1;
+
+function getActiveLevelId() {
+  const fromUrl = parseInt(new URLSearchParams(window.location.search).get("level"), 10);
+  return fromUrl >= 1 ? fromUrl : DEFAULT_LEVEL_ID;
+}
+
+const ACTIVE_LEVEL_ID = getActiveLevelId();
+
+const LEVEL_COMPLETION = {
+  1: {
+    title: "Level 1 complete",
+    objective: "Workspace setup and navigation done. More levels coming soon.",
+    banner: "Level 1 complete. git init successful.",
+  },
+  2: {
+    title: "Level 2 complete",
+    objective: "Tracking, staging, and commits mastered. More levels coming soon.",
+    banner: "Level 2 complete. First commit saved to history.",
+  },
+};
+
+const COMMIT_HASH = "a3f9c21";
+const AUTHOR_NAME = "My Name";
+const AUTHOR_EMAIL = "student@senecapolytechnic.ca";
+
+let totalLevels = 0;
 
 const elements = {
   progress: document.getElementById("progress"),
   levelBadge: document.getElementById("level-badge"),
+  levelBadgeLabel: document.getElementById("level-badge-label"),
+  levelBadgeNum: document.getElementById("level-badge-num"),
   levelTitle: document.getElementById("level-title"),
   levelObjective: document.getElementById("level-objective"),
   commands: document.getElementById("commands"),
   taskName: document.getElementById("task-name"),
   taskInstruction: document.getElementById("task-instruction"),
   hintBtn: document.getElementById("hint-btn"),
+  nextLevelBtn: document.getElementById("next-level-btn"),
   hintText: document.getElementById("hint-text"),
+  workspacePanel: document.getElementById("workspace-panel"),
+  workspaceFiles: document.getElementById("workspace-files"),
+  workspaceCommits: document.getElementById("workspace-commits"),
   terminalOutput: document.getElementById("terminal-output"),
   terminalForm: document.getElementById("terminal-form"),
   commandInput: document.getElementById("command-input"),
   terminalPanel: document.getElementById("terminal-panel"),
+  terminalPrompt: document.getElementById("terminal-prompt"),
+};
+
+const repoState = {
+  files: [],
+  commits: [],
 };
 
 const state = {
@@ -98,12 +136,24 @@ const LINE_COLORS = {
   system: "text-blue-400",
 };
 
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function getPromptPrefix() {
+  if (ACTIVE_LEVEL_ID >= 2) {
+    return '<span class="mr-2 text-green-500">user@git-practice:~/git-game$</span>';
+  }
+  return '<span class="mr-2 text-green-500">user@git-practice:~$</span>';
+}
+
 function printLine(text, kind = "info") {
   const line = document.createElement("p");
   line.className = `${LINE_BASE} ${LINE_COLORS[kind] || LINE_COLORS.info}`;
   if (kind === "cmd") {
-    line.innerHTML =
-      '<span class="mr-2 text-green-500">user@git-practice:~$</span>' + escapeHtml(text);
+    line.innerHTML = getPromptPrefix() + escapeHtml(text);
   } else {
     line.textContent = text;
   }
@@ -111,10 +161,122 @@ function printLine(text, kind = "info") {
   elements.terminalOutput.scrollTop = elements.terminalOutput.scrollHeight;
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
+function printHtmlLine(html, kind = "info") {
+  const line = document.createElement("p");
+  line.className = `${LINE_BASE} ${LINE_COLORS[kind] || LINE_COLORS.info}`;
+  line.innerHTML = html;
+  elements.terminalOutput.appendChild(line);
+  elements.terminalOutput.scrollTop = elements.terminalOutput.scrollHeight;
+}
+
+function setFileStatus(name, status) {
+  const existing = repoState.files.find((file) => file.name === name);
+  if (existing) {
+    existing.status = status;
+  } else {
+    repoState.files.push({ name, status });
+  }
+}
+
+function renderWorkspace() {
+  if (!elements.workspacePanel) return;
+
+  if (ACTIVE_LEVEL_ID >= 2) {
+    elements.workspacePanel.classList.remove("hidden");
+  }
+
+  elements.workspaceFiles.innerHTML = "";
+  if (repoState.files.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "m-0 text-xs text-slate-500";
+    empty.textContent = ".git/ initialized — no tracked files yet";
+    elements.workspaceFiles.appendChild(empty);
+  } else {
+    const fileStyles = {
+      untracked: "border-red-400/40 bg-red-400/10 text-red-400",
+      staged: "border-green-400/40 bg-green-400/10 text-green-400",
+      committed: "border-slate-600 bg-slate-700/40 text-slate-300",
+    };
+
+    repoState.files.forEach((file) => {
+      const chip = document.createElement("span");
+      chip.className = `rounded border px-2 py-1 text-xs ${fileStyles[file.status] || fileStyles.committed}`;
+      chip.textContent = file.name;
+      elements.workspaceFiles.appendChild(chip);
+    });
+  }
+
+  elements.workspaceCommits.innerHTML = "";
+  if (repoState.commits.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "m-0 text-xs text-slate-500";
+    empty.textContent = "no commits yet";
+    elements.workspaceCommits.appendChild(empty);
+  } else {
+    repoState.commits.forEach((commit, index) => {
+      const node = document.createElement("span");
+      node.className =
+        "rounded-full border border-blue-400/50 bg-blue-400/10 px-2 py-1 text-[11px] font-bold text-blue-400";
+      node.textContent = `C${index + 1} · ${commit.message}`;
+      elements.workspaceCommits.appendChild(node);
+    });
+  }
+}
+
+function applyWorkspaceUpdate(triggerState) {
+  switch (triggerState) {
+    case "render_untracked_file_red":
+      setFileStatus("index.html", "untracked");
+      break;
+    case "shift_file_to_staged_green":
+      setFileStatus("index.html", "staged");
+      break;
+    case "draw_commit_node_c1":
+      setFileStatus("index.html", "committed");
+      repoState.commits.push({ hash: COMMIT_HASH, message: "initial setup" });
+      break;
+    default:
+      break;
+  }
+  renderWorkspace();
+}
+
+function printSimulatedOutput(task) {
+  switch (task.id) {
+    case "2.2":
+      printLine("On branch main", "info");
+      printLine("", "info");
+      printLine("No commits yet", "info");
+      printLine("", "info");
+      printLine("Untracked files:", "info");
+      printLine('  (use "git add <file>..." to include in what will be committed)', "info");
+      printHtmlLine('        <span class="text-red-500">index.html</span>', "info");
+      printLine("", "info");
+      printLine('nothing added to commit but untracked files present (use "git add" to track)', "info");
+      break;
+    case "2.3":
+      printLine("diff --git a/index.html b/index.html", "info");
+      printLine("new file mode 100644", "info");
+      printLine("--- /dev/null", "info");
+      printLine("+++ b/index.html", "info");
+      printLine("@@ -0,0 +1 @@", "info");
+      printHtmlLine('<span class="text-green-500">+ &lt;h1&gt;Hello Git&lt;/h1&gt;</span>', "info");
+      break;
+    case "2.5":
+      printLine(`[main (root-commit) ${COMMIT_HASH}] initial setup`, "info");
+      printLine(" 1 file changed, 1 insertion(+)", "info");
+      printLine(" create mode 100644 index.html", "info");
+      break;
+    case "2.6":
+      printLine(`commit ${COMMIT_HASH}def5678901234567890abcdef12345678`, "info");
+      printLine(`Author: ${AUTHOR_NAME} <${AUTHOR_EMAIL}>`, "info");
+      printLine("Date:   Tue Jun 16 12:00:00 2026 -0400", "info");
+      printLine("", "info");
+      printLine("    initial setup", "info");
+      break;
+    default:
+      break;
+  }
 }
 
 function renderTask() {
@@ -123,7 +285,9 @@ function renderTask() {
   const level = state.currentLevel;
   const task = state.currentTask;
 
-  elements.levelBadge.textContent = `LEVEL ${level.id}`;
+  elements.levelBadgeNum.textContent = level.id;
+  elements.levelBadgeLabel.classList.remove("hidden");
+  elements.levelBadgeNum.classList.remove("hidden");
   elements.levelTitle.textContent = level.title;
   elements.levelObjective.textContent = level.objective;
 
@@ -143,20 +307,30 @@ function renderTask() {
   elements.hintText.classList.add("hidden");
   elements.hintBtn.disabled = false;
   elements.hintBtn.textContent = "show hint";
+  elements.nextLevelBtn.classList.add("hidden");
 
   renderProgress();
 }
 
 function renderProgress() {
-  const total = state.levels.length;
-  const current = Math.min(state.levelIndex + 1, total);
-  elements.progress.textContent = `Level ${current} / ${total}`;
+  elements.progress.textContent = `Level ${ACTIVE_LEVEL_ID} / ${totalLevels}`;
+}
+
+function getNextLevelId() {
+  return ACTIVE_LEVEL_ID < totalLevels ? ACTIVE_LEVEL_ID + 1 : null;
 }
 
 function renderComplete() {
-  elements.levelBadge.textContent = "DONE";
-  elements.levelTitle.textContent = "Level 1 complete";
-  elements.levelObjective.textContent = "Workspace setup and navigation done. More levels coming soon.";
+  const completion = LEVEL_COMPLETION[ACTIVE_LEVEL_ID] || {
+    title: "Level complete",
+    objective: "Well done.",
+    banner: "Level complete.",
+  };
+
+  elements.levelBadgeNum.textContent = "✓";
+  elements.levelBadgeLabel.classList.add("hidden");
+  elements.levelTitle.textContent = completion.title;
+  elements.levelObjective.textContent = completion.objective;
   elements.commands.innerHTML = "";
   elements.taskName.textContent = "";
   elements.taskInstruction.textContent = "";
@@ -165,10 +339,18 @@ function renderComplete() {
   elements.commandInput.disabled = true;
   elements.commandInput.placeholder = "session finished";
 
+  const nextLevelId = getNextLevelId();
+  if (nextLevelId) {
+    elements.nextLevelBtn.classList.remove("hidden");
+    elements.nextLevelBtn.textContent = `next level → Level ${nextLevelId}`;
+  } else {
+    elements.nextLevelBtn.classList.add("hidden");
+  }
+
   const banner = document.createElement("div");
   banner.className =
     "mt-[14px] rounded-[10px] border border-dashed border-green-500 p-4 text-center text-green-500";
-  banner.textContent = "Level 1 complete. git init successful.";
+  banner.textContent = completion.banner;
   elements.terminalOutput.appendChild(banner);
   elements.terminalOutput.scrollTop = elements.terminalOutput.scrollHeight;
   renderProgress();
@@ -186,7 +368,9 @@ function handleCommand(rawInput) {
   state.attempts += 1;
 
   if (validate(input, buildValidation(task))) {
+    printSimulatedOutput(task);
     printLine(task.successMessage, "success");
+    applyWorkspaceUpdate(task.uiTriggerState);
     state.applyUiState(task.uiTriggerState);
     state.advance();
 
@@ -221,16 +405,31 @@ elements.hintBtn.addEventListener("click", () => {
   elements.hintBtn.disabled = true;
 });
 
+elements.nextLevelBtn.addEventListener("click", () => {
+  const nextLevelId = getNextLevelId();
+  if (nextLevelId) {
+    window.location.href = `?level=${nextLevelId}`;
+  }
+});
+
 async function loadData() {
   const res = await fetch(DATA_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
+function setupLevelContext() {
+  if (ACTIVE_LEVEL_ID >= 2 && elements.terminalPrompt) {
+    elements.terminalPrompt.textContent = "user@git-practice:~/git-game$";
+  }
+  renderWorkspace();
+}
+
 async function init() {
   try {
     const data = await loadData();
     const allLevels = Array.isArray(data.levels) ? data.levels : [];
+    totalLevels = allLevels.length;
     state.levels = allLevels.filter((level) => level.id === ACTIVE_LEVEL_ID);
   } catch (err) {
     elements.levelTitle.textContent = "Could not load questions.json";
@@ -250,7 +449,12 @@ async function init() {
     return;
   }
 
+  setupLevelContext();
+
   printLine("Welcome to git::practice. Type the command each task asks for.", "system");
+  if (ACTIVE_LEVEL_ID >= 2) {
+    printLine("Continuing from Level 1 — you're inside ~/git-game with an initialized repo.", "system");
+  }
   printLine(`— ${state.currentLevel.title} —`, "system");
   renderTask();
   elements.commandInput.focus();
