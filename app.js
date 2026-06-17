@@ -24,7 +24,15 @@ const LEVEL_COMPLETION = {
     objective: "Branching and merge conflict recovery mastered. One level left.",
     banner: "Level 3 complete. Merge aborted safely — repo restored.",
   },
+  4: {
+    title: "Level 4 complete",
+    objective: "You've finished all four levels. Remote sync mastered!",
+    banner: "All levels complete! Local and remote repositories in sync.",
+  },
 };
+
+const REMOTE_ORIGIN_URL = "https://github.com/seneca/game.git";
+const REMOTE_TEMPLATE_URL = "https://github.com/seneca/template.git";
 
 const COMMIT_HASH = "a3f9c21";
 const AUTHOR_NAME = "My Name";
@@ -48,6 +56,7 @@ const elements = {
   workspacePanel: document.getElementById("workspace-panel"),
   workspaceFiles: document.getElementById("workspace-files"),
   workspaceBranches: document.getElementById("workspace-branches"),
+  workspaceRemotes: document.getElementById("workspace-remotes"),
   workspaceCommits: document.getElementById("workspace-commits"),
   terminalOutput: document.getElementById("terminal-output"),
   terminalForm: document.getElementById("terminal-form"),
@@ -62,6 +71,11 @@ const repoState = {
   branches: [],
   currentBranch: "main",
   mergeConflict: false,
+  clonedRepos: [],
+  remotes: [],
+  remotePushed: false,
+  remoteFetched: false,
+  remoteSynced: false,
 };
 
 const state = {
@@ -249,6 +263,67 @@ function renderWorkspace() {
     }
   }
 
+  if (elements.workspaceRemotes) {
+    elements.workspaceRemotes.innerHTML = "";
+    if (ACTIVE_LEVEL_ID >= 4) {
+      if (repoState.clonedRepos.length > 0) {
+        const cloneLabel = document.createElement("p");
+        cloneLabel.className = "m-0 text-[10px] uppercase tracking-widest text-slate-500";
+        cloneLabel.textContent = "cloned";
+        elements.workspaceRemotes.appendChild(cloneLabel);
+
+        const cloneRow = document.createElement("div");
+        cloneRow.className = "flex flex-wrap gap-2";
+        repoState.clonedRepos.forEach((repo) => {
+          const chip = document.createElement("span");
+          chip.className =
+            "rounded border border-purple-400/40 bg-purple-400/10 px-2 py-1 text-xs text-purple-300";
+          chip.textContent = `[${repo}]/`;
+          cloneRow.appendChild(chip);
+        });
+        elements.workspaceRemotes.appendChild(cloneRow);
+      }
+
+      if (repoState.remotes.length > 0) {
+        const remoteLabel = document.createElement("p");
+        remoteLabel.className = "mb-0 mt-2 text-[10px] uppercase tracking-widest text-slate-500";
+        remoteLabel.textContent = "remote";
+        elements.workspaceRemotes.appendChild(remoteLabel);
+
+        repoState.remotes.forEach((remote) => {
+          const row = document.createElement("div");
+          row.className =
+            "flex flex-wrap items-center gap-2 rounded border border-cyan-400/30 bg-cyan-400/5 px-2 py-1.5";
+
+          const name = document.createElement("span");
+          name.className = "text-[11px] font-bold text-cyan-400";
+          name.textContent = `☁ ${remote.name}`;
+
+          const url = document.createElement("span");
+          url.className = "text-[10px] text-slate-400";
+          url.textContent = remote.url.replace("https://", "");
+
+          row.appendChild(name);
+          row.appendChild(url);
+
+          const statusParts = [];
+          if (repoState.remotePushed) statusParts.push("↑ pushed");
+          if (repoState.remoteFetched) statusParts.push("↓ fetched");
+          if (repoState.remoteSynced) statusParts.push("⟳ synced");
+
+          if (statusParts.length > 0) {
+            const status = document.createElement("span");
+            status.className = "ml-auto text-[10px] text-green-400";
+            status.textContent = statusParts.join(" · ");
+            row.appendChild(status);
+          }
+
+          elements.workspaceRemotes.appendChild(row);
+        });
+      }
+    }
+  }
+
   elements.workspaceCommits.innerHTML = "";
   if (repoState.commits.length === 0) {
     const empty = document.createElement("p");
@@ -298,6 +373,28 @@ function applyWorkspaceUpdate(triggerState) {
     case "clear_conflict_state_reset":
       repoState.mergeConflict = false;
       setFileStatus("index.html", "committed");
+      break;
+    case "play_clone_download_sequence":
+      if (!repoState.clonedRepos.includes("template")) {
+        repoState.clonedRepos.push("template");
+      }
+      break;
+    case "fade_in_cloud_origin_server":
+      if (!repoState.remotes.some((r) => r.name === "origin")) {
+        repoState.remotes.push({ name: "origin", url: REMOTE_ORIGIN_URL });
+      }
+      break;
+    case "animate_packet_upload_to_cloud":
+      repoState.remotePushed = true;
+      break;
+    case "render_hidden_fetched_pointers":
+      repoState.remoteFetched = true;
+      break;
+    case "sync_local_tree_complete":
+      repoState.remoteSynced = true;
+      if (!repoState.files.some((f) => f.name === "README.md")) {
+        repoState.files.push({ name: "README.md", status: "committed" });
+      }
       break;
     default:
       break;
@@ -357,6 +454,37 @@ function printSimulatedOutput(task) {
       break;
     case "3.5":
       printLine("Merge aborted. Working tree restored to pre-merge state.", "info");
+      break;
+    case "4.1":
+      printLine("Cloning into 'template'...", "info");
+      printLine(`remote: ${REMOTE_TEMPLATE_URL}`, "info");
+      printLine("remote: Enumerating objects: 42, done.", "info");
+      printLine("remote: Counting objects: 100% (42/42), done.", "info");
+      printLine("Receiving objects: 100% (42/42), done.", "info");
+      break;
+    case "4.2":
+      break;
+    case "4.3":
+      printLine("Enumerating objects: 3, done.", "info");
+      printLine("Counting objects: 100% (3/3), done.", "info");
+      printLine(`To ${REMOTE_ORIGIN_URL}`, "info");
+      printHtmlLine(' <span class="text-green-500">* [new branch]      main -> main</span>', "info");
+      break;
+    case "4.4":
+      printLine(`From ${REMOTE_ORIGIN_URL}`, "info");
+      printHtmlLine(
+        ' <span class="text-blue-400">* [new branch]      partner-feature -> origin/partner-feature</span>',
+        "info"
+      );
+      printLine(`   ${COMMIT_HASH}..b7e4d90  main       -> origin/main`, "info");
+      break;
+    case "4.5":
+      printLine(`From ${REMOTE_ORIGIN_URL}`, "info");
+      printLine(" * branch            main       -> FETCH_HEAD", "info");
+      printLine(`Updating ${COMMIT_HASH}..b7e4d90`, "info");
+      printLine("Fast-forward", "info");
+      printLine(" README.md | 2 +-", "info");
+      printLine(" 1 file changed, 1 insertion(+), 1 deletion(-)", "info");
       break;
     default:
       break;
@@ -516,11 +644,22 @@ function setupLevelContext() {
     repoState.mergeConflict = false;
   }
 
+  if (ACTIVE_LEVEL_ID >= 4) {
+    repoState.clonedRepos = [];
+    repoState.remotes = [];
+    repoState.remotePushed = false;
+    repoState.remoteFetched = false;
+    repoState.remoteSynced = false;
+  }
+
   updateTerminalPrompt();
   renderWorkspace();
 }
 
 function getLevelIntroMessage() {
+  if (ACTIVE_LEVEL_ID >= 4) {
+    return "Continuing from Level 3 — git-game is ready to connect to a remote on GitHub.";
+  }
   if (ACTIVE_LEVEL_ID >= 3) {
     return "Continuing from Level 2 — one commit on main, ready to branch.";
   }
