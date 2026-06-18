@@ -1,5 +1,7 @@
 
-**[Watch our Project Demonstration on YouTube](https://www.youtube.com/)**
+## **[Watch our Project Demonstration on YouTube](https://www.youtube.com/watch?v=FOCVxrsEHJQ)**
+
+### **[See it live](https://aleksandratrunova.github.io/cep146-git-practice-game/)**
 
 # Git practice game (CEP146 team project)
 
@@ -34,9 +36,23 @@ As players type commands into a  terminal window, the application  matches their
 
 Click the link below to watch our video demonstrating the application and going through the levels:
 
-**[Watch our Project Demonstration on YouTube](https://www.youtube.com/)**
+**[Watch our Project Demonstration on YouTube](https://www.youtube.com/watch?v=FOCVxrsEHJQ)**
 
 ---
 
 ## Roles and responsibilities
+
+### Gabriel Brito Pinto
+* **Core Focus:** Core application logic and site layout
+* **Contributions:**
+  * Programmed the game engine, command validation, level progression, and JSON-driven task logic in app.js
+  * Created the shared site header and footer in layout.js, integrated navigation across main.html, index.html, and cheatsheet.html
+
+### Aleksandra Trunova
+* **Core Focus:** Project documentation, design and supporting web page developing
+* **Contributions:**
+  * Drafted, structured, and maintained the project technical specifications, and markdown documentation.
+  * Developed game content and questions structure
+  * Designed and built the reference cheat sheet web page and main page.
+  * Worked on the video editing.
 
