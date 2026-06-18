@@ -38,6 +38,15 @@ _Type command correctly. Showq successful validation._
 
 > "As you can see right command allows user to proceed with the next task."
 
+_Slides 3 -5 with voices below_
+**[Alex]**
+>To solve the abstract 'black box' problem of learning version control, we designed the **Git Game**
+>Our application provides an imitation of the terminal in the user's browser. It gives the students real-time graphical feedback  and highlights the mistakes. We integrated step-by-step level progression and useful reference page into a single, workspace.
+
+**[Gabriel]**
+> We divided the game across four levels.
+>We start at **Level 1** with foundational file navigation and environment setup. **Level 2** is focused on staging and committing. From there, **Level 3** advances into branching  and manual conflict resolution, before concluding at **Level 4**, where users manage pushing changes.
+
 
 ## 3: conclusion (2:10 - 3:00)
 
