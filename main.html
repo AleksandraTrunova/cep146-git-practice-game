@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Interactive Trainer - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-950 text-slate-100 font-mono min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-300"
+  >
+    <header
+      class="relative overflow-hidden border-b border-slate-900 bg-gradient-to-b from-slate-900/30 to-transparent py-20 lg:py-28"
+    >
+      <div class="max-w-4xl mx-auto px-6 text-center space-y-6 relative z-10">
+        <div
+          class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase"
+        >
+          CEP146
+        </div>
+        <h1
+          class="text-4xl md:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight"
+        >
+          Visualized Git Game,<br />
+          <span class="text-blue-500"
+            >Learn with Interactive Levels.</span
+          >
+        </h1>
+        <p
+          class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto font-sans leading-relaxed"
+        >
+          An engaging training game built to help you get basic git CLI skills.
+        </p>
+        <div
+          class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a
+            href="/index.html"
+            class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-950/20 text-center"
+          >
+            Go to Levels
+          </a>
+          <a
+            href="/cheatsheet.html"
+            class="w-full sm:w-auto px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold rounded-xl border border-slate-800 transition-all text-center"
+          >
+            View Cheat Sheet
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <section class="py-16 max-w-5xl w-full mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          class="border border-slate-900 bg-slate-900/20 p-6 rounded-2xl space-y-2"
+        >
+          <div
+            class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold mb-2"
+          >
+            &gt;
+          </div>
+          <h3 class="text-sm font-bold text-slate-200">
+            Simulated Shell Pipeline
+          </h3>
+          <p class="text-xs font-sans text-slate-400 leading-relaxed">
+            Simulates Git CLI, gives interactive feedback in your
+            browser window.
+          </p>
+        </div>
+        <div
+          class="border border-slate-900 bg-slate-900/20 p-6 rounded-2xl space-y-2"
+        >
+          <div
+            class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold mb-2"
+          >
+            {}
+          </div>
+          <h3 class="text-sm font-bold text-slate-200">
+            Different Levels
+          </h3>
+          <p class="text-xs font-sans text-slate-400 leading-relaxed">
+            Using structured JSON file that
+            allows access levels data without complicated backend logic.
+          </p>
+        </div>
+        <div
+          class="border border-slate-900 bg-slate-900/20 p-6 rounded-2xl space-y-2"
+        >
+          <div
+            class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold mb-2"
+          >
+            ▲
+          </div>
+          <h3 class="text-sm font-bold text-slate-200">
+            Vivid Graphic
+          </h3>
+          <p class="text-xs font-sans text-slate-400 leading-relaxed">
+            Simple visual feedback and console structure.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="levels"
+      class="py-12 border-t border-slate-900 bg-slate-900/10"
+    >
+      <div class="max-w-4xl mx-auto px-6 space-y-8">
+        <div class="text-center space-y-1">
+          <h2 class="text-xl font-bold text-slate-200">
+            Game Roadmap
+          </h2>
+          <p class="text-slate-500 text-xs font-sans">
+            Four sequential steps to get fundamental knowledge.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            class="border border-slate-900 bg-slate-950 p-5 rounded-xl flex items-start gap-4 hover:border-slate-800 transition-colors"
+          >
+            <span
+              class="text-xs font-bold text-emerald-500 bg-emerald-500/5 px-2 py-1 rounded border border-emerald-500/10"
+              >01</span
+            >
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-slate-200">
+                Environment Setup
+              </h4>
+              <p class="text-xs font-sans text-slate-400">
+                Initialize the first repo, navigating through the directories.
+              </p>
+              <div class="text-[10px] text-slate-600 pt-1">
+                pwd • mkdir • cd • git init
+              </div>
+            </div>
+          </div>
+          <div
+            class="border border-slate-900 bg-slate-950 p-5 rounded-xl flex items-start gap-4 hover:border-slate-800 transition-colors"
+          >
+            <span
+              class="text-xs font-bold text-blue-400 bg-blue-500/5 px-2 py-1 rounded border border-blue-500/10"
+              >02</span
+            >
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-slate-200">
+                The Local Versions
+              </h4>
+              <p class="text-xs font-sans text-slate-400">
+                Sstaging files, inspect differences,creating first commits.
+              </p>
+              <div class="text-[10px] text-slate-600 pt-1">
+                status • diff • add • commit
+              </div>
+            </div>
+          </div>
+          <div
+            class="border border-slate-900 bg-slate-950 p-5 rounded-xl flex items-start gap-4 hover:border-slate-800 transition-colors"
+          >
+            <span
+              class="text-xs font-bold text-slate-600 bg-slate-900/20 px-2 py-1 rounded border border-slate-900"
+              >03</span
+            >
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-slate-500">
+                Branching and Conflicts
+              </h4>
+              <p class="text-xs font-sans text-slate-500">
+                Creating branches and handling conflicts.
+              </p>
+              <div class="text-[10px] text-slate-600 pt-1">
+                branch • checkout • merge
+              </div>
+            </div>
+          </div>
+          <div
+            class="border border-slate-900 bg-slate-950 p-5 rounded-xl flex items-start gap-4 hover:border-slate-800 transition-colors"
+          >
+            <span
+              class="text-xs font-bold text-slate-600 bg-slate-900/20 px-2 py-1 rounded border border-slate-900"
+              >04</span
+            >
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-slate-500">
+                Pushing changes to remote repo
+              </h4>
+              <p class="text-xs font-sans text-slate-500">
+                Syncing with remote project version and sending changes.
+              </p>
+              <div class="text-[10px] text-slate-600 pt-1">
+                clone • remote • push • pull
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="py-16 border-t border-slate-900 max-w-4xl mx-auto px-6 space-y-8"
+    >
+      <div class="text-center space-y-1">
+        <h2 class="text-xl font-bold text-slate-200">
+          Project Development Team
+        </h2>
+        <p class="text-slate-500 text-xs font-sans">
+          CEP146 Team Collaboration
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div
+          class="border border-slate-900 bg-slate-900/10 p-5 rounded-2xl flex flex-col justify-between space-y-4"
+        >
+          <div class="space-y-1">
+            <span
+              class="text-[10px] text-emerald-400 tracking-wider font-bold uppercase block"
+              >Documentation and UI</span
+            >
+            <h3 class="text-base font-bold text-slate-200">
+              Aleksandra Trunova
+            </h3>
+            <p class="text-xs font-sans text-slate-400 leading-relaxed">
+              Engineered responsive page infrastructure and layout styling using
+             Tailwind CSS. Structured technical markdown
+              assets and reference page.
+            </p>
+          </div>
+          <span class="text-[10px] text-slate-600">atrunova1@myseneca.ca</span>
+        </div>
+        <div
+          class="border border-slate-900 bg-slate-900/10 p-5 rounded-2xl flex flex-col justify-between space-y-4"
+        >
+          <div class="space-y-1">
+            <span
+              class="text-[10px] text-blue-400 tracking-wider font-bold uppercase block"
+              >Core Application Logic</span
+            >
+            <h3 class="text-base font-bold text-slate-200">
+              Gabriel Brito Pinto
+            </h3>
+            <p class="text-xs font-sans text-slate-400 leading-relaxed">
+              Programmed background logic, evaluation algorithms,
+              and game levels. Formulated technical
+              video workflow scripting.
+            </p>
+          </div>
+          <span class="text-[10px] text-slate-600"
+            >gabriel-brito-email@myseneca.ca</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-slate-900 bg-gradient-to-t from-slate-900/20 to-transparent py-16 text-center"
+    >
+      <div class="max-w-2xl mx-auto px-6 space-y-4">
+        <h2 class="text-xl font-bold text-slate-200">
+          Ready to Get a new Skill?
+        </h2>
+        <p
+          class="text-xs font-sans text-slate-400 max-w-md mx-auto leading-relaxed"
+        >
+          Launch our game in your browser window. Zero
+           installations or configuration setups required.
+        </p>
+        <div class="pt-2">
+          <a
+            href="/index.html"
+            class="inline-block px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-950 font-bold rounded-xl transition-all shadow-md"
+          >
+            Execute Core App &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
